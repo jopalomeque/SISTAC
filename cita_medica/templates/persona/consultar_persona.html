@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block contenido %}
+
+
+    <h2 class="card-title text-center"> Consultar Persona </h2>
+
+    <a href='{% url 'crear_persona' %}' class="btn-primary"> Crear Persona </a>
+
+    <table class="table table-blue table-striped">
+
+        <th>Fecha Creacion</th>
+        <th>Fecha Modificacion</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Edad</th>
+        <th>Direccion</th>
+        <th>Cedula</th>
+        <th>Correo</th>
+        <th>ID</th>
+        <th>Estado</th>
+        <th>Modificar</th>
+        <th>Eliminar</th>
+
+        {% for persona in personas_ls %}
+            {% if persona.estado == 1 %}
+                <tr>
+
+                    <td>{{ persona.fecha_creacion }}</td>
+                    <td>{{ persona.fecha_modificacion }}</td>
+                    <td>{{ persona.nombre }}</td>
+                    <td>{{ persona.apellido }}</td>
+                    <td>{{ persona.edad }}</td>
+                    <td>{{ persona.direccion }}</td>
+                    <td>{{ persona.cedula }}</td>
+                    <td>{{ persona.correo }}</td>
+                    <td>{{ persona.id }}</td>
+                    <td>{{ persona.estado }}</td>
+                    <td><a href='{% url 'modificar_persona' persona.id %}'> mod </a></td>
+                    <td><a href='{% url 'eliminar_persona' persona.id %}'> elim </a></td>
+
+                </tr>
+            {% endif %}
+        {% endfor %}
+
+    </table>
+
+{% endblock %}

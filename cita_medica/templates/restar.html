@@ -1,0 +1,17 @@
+{%  extends 'base.html' %}
+
+{% block contenido %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ formulario.as_p }}
+    <input type="submit" value="Restar">
+</form>
+
+{% if resta %}
+    <input type="text" value="{{ resta.as_p }}"/>
+       {% else %}
+    <input type="text" value="0"/>
+{% endif %}
+
+{% endblock %}

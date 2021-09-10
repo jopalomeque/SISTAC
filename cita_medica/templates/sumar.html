@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ formulario.as_p }}
+    <input type="submit" value="Calcular Suma"/>
+</form>
+
+{% if suma %}
+    <label value="aqui">{{ suma }}</label>
+{% else %}
+    <label value="0"></label>
+{% endif %}
+
+{% endblock %}
