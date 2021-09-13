@@ -1,5 +1,4 @@
 asgiref==3.4.1
-bower==0.0.0
 certifi==2021.5.30
 cffi==1.14.6
 charset-normalizer==2.0.4
@@ -7,11 +6,9 @@ cryptography==3.4.8
 cymysql==0.9.14
 Deprecated==1.2.13
 Django==3.0.8
-django-bower==5.2.0
 django-crispy-forms==1.12.0
 django-cymysql==3.0.0
 django-debug-toolbar==3.2.2
-django-scheduler==0.9.5
 github3.py==2.0.0
 icalendar==4.0.7
 idna==3.2

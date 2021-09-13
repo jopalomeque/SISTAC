@@ -44,8 +44,6 @@ INSTALLED_APPS = [
     #'widget_tweaks',
     'crispy_forms',
     'debug_toolbar',
-    'djangobower',
-    #'schedule',
     'cita_medica',
     'contabilidad',
     'inventario',
@@ -59,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'SISTAC.urls'
@@ -117,6 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
+
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
@@ -145,24 +145,10 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 STATIC_URL = '/static/'
 
-BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_ROOT, 'components')
 
 # List of finder classes that know how to find static files in
 # various locations.
 
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'djangobower.finders.BowerFinder',
-)
-
-
-BOWER_INSTALLED_APPS = (
-    'jquery',
-    'jquery-ui',
-    'bootstrap',
-    'fullcalendar#3.8.2'
-)
 
 
 # Default primary key field type

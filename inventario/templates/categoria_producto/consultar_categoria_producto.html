@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block contenido %}
+
+
+    <h2 class="card-title text-center"> Consultar Categoria Producto </h2>
+
+    <a href='{% url 'crear_categoria_producto' %}' class="btn-primary"> Crear Categoria Producto </a>
+
+    <table class="table table-blue table-striped">
+
+        <th>Fecha Creacion</th>
+        <th>Fecha Modificacion</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Edad</th>
+        <th>Direccion</th>
+        <th>Cedula</th>
+        <th>Correo</th>
+        <th>ID</th>
+        <th>Estado</th>
+        <th>Modificar</th>
+        <th>Eliminar</th>
+
+        {% for categorias_prodcutos in categorias_prodcutos_ls %}
+            {% if categorias_prodcutos.estado == 1 %}
+                <tr>
+
+                    <td>{{ categorias_prodcutos.fecha_creacion }}</td>
+                    <td>{{ categorias_prodcutos.fecha_modificacion }}</td>
+                    <td>{{ categorias_prodcutos.nombre }}</td>
+                    <td>{{ categorias_prodcutos.apellido }}</td>
+                    <td>{{ categorias_prodcutos.edad }}</td>
+                    <td>{{ categorias_prodcutos.direccion }}</td>
+                    <td>{{ categorias_prodcutos.cedula }}</td>
+                    <td>{{ categorias_prodcutos.correo }}</td>
+                    <td>{{ categorias_prodcutos.id }}</td>
+                    <td>{{ categorias_prodcutos.estado }}</td>
+                    <td><a href='{% url 'modificar_categoria_producto' categorias_prodcutos.id %}'> mod </a></td>
+                    <td><a href='{% url 'eliminar_categoria_producto' categorias_prodcutos.id %}'> elim </a></td>
+
+                </tr>
+            {% endif %}
+        {% endfor %}
+
+    </table>
+
+{% endblock %}

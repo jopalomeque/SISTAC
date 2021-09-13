@@ -9,7 +9,7 @@ class CategoriaBodega(models.Model):
     fecha_modificacion = models.DateTimeField(auto_now=True)
     usuario_creacion = models.CharField(max_length=15)
     usuario_modificacion = models.CharField(max_length=15)
-    estado = models.IntegerField()
+    estado = models.IntegerField(default=1)
 
     class Meta:
         db_table = "inv_catbodega"
@@ -30,7 +30,7 @@ class Bodega(models.Model):
     fecha_modificacion = models.DateTimeField(auto_now=True)
     usuario_creacion = models.CharField(max_length=15)
     usuario_modificacion = models.CharField(max_length=15)
-    estado = models.IntegerField()
+    estado = models.IntegerField(default=1)
 
     class Meta:
         db_table = "inv_bodega"
@@ -50,7 +50,7 @@ class CategoriaProducto(models.Model):
     fecha_modificacion = models.DateTimeField(auto_now=True)
     usuario_creacion = models.CharField(max_length=15)
     usuario_modificacion = models.CharField(max_length=15)
-    estado = models.IntegerField()
+    estado = models.IntegerField(default=1)
 
     class Meta:
         db_table = "inv_catproducto"
@@ -71,7 +71,7 @@ class Producto(models.Model):
     fecha_modificacion = models.DateTimeField(auto_now=True)
     usuario_creacion = models.CharField(max_length=15)
     usuario_modificacion = models.CharField(max_length=15)
-    estado = models.IntegerField()
+    estado = models.IntegerField(default=1)
 
     class Meta:
         db_table = "inv_producto"
@@ -96,7 +96,7 @@ class BodegaProducto(models.Model):
     fecha_modificacion = models.DateTimeField(auto_now=True)
     usuario_creacion = models.CharField(max_length=15)
     usuario_modificacion = models.CharField(max_length=15)
-    estado = models.IntegerField()
+    estado = models.IntegerField(default=1)
 
     class Meta:
         db_table = "inv_bodegaproducto"
