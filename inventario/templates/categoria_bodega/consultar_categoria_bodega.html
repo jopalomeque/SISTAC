@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block contenido %}
+
+
+    <h2 class="card-title text-center"> Consultar Categoria Bodega </h2>
+
+    <a href='{% url 'crear_categoria_bodega' %}' class="btn-primary"> Crear Categoria Bodega </a>
+
+    <table class="table table-blue table-striped">
+
+        <th>Fecha Creacion</th>
+        <th>Fecha Modificacion</th>
+        <th>Nombre</th>
+        <th>Descripcion</th>
+        <th>ID</th>
+        <th>Estado</th>
+        <th>Modificar</th>
+        <th>Eliminar</th>
+
+        {% for categorias_prodcutos in categorias_bodegas_ls %}
+            {% if categorias_prodcutos.estado == 1 %}
+                <tr>
+
+                    <td>{{ categorias_prodcutos.fecha_creacion }}</td>
+                    <td>{{ categorias_prodcutos.fecha_modificacion }}</td>
+                    <td>{{ categorias_prodcutos.nombre }}</td>
+                    <td>{{ categorias_prodcutos.descripcion }}</td>
+                    <td>{{ categorias_prodcutos.id }}</td>
+                    <td>{{ categorias_prodcutos.estado }}</td>
+                    <td><a href='{% url 'modificar_categoria_bodega' categorias_prodcutos.id %}'> mod </a></td>
+                    <td><a href='{% url 'eliminar_categoria_bodega' categorias_prodcutos.id %}'> elim </a></td>
+
+                </tr>
+            {% endif %}
+        {% endfor %}
+
+    </table>
+
+{% endblock %}

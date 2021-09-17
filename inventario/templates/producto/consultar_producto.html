@@ -5,20 +5,37 @@
 
     <h2 class="card-title text-center"> Consultar Producto </h2>
 
-    <a href='{% url 'crear_producto' %}' class="btn-primary"> Crear Producto </a>
+
+
+      <div class="d-flex justify-content-between">
+        <div>
+            {#            left#}
+            {#                            <a href="{% url 'crear_ciudad' %}" class="btn btn-primary">Crear Ciudad</a>#}
+             <a href='{% url 'crear_producto' %}' class="btn-primary"> Crear Producto </a>
+        </div>
+        <div>
+            {#            right#}
+
+            <form action="{% url 'consultar_producto' %}" method="post">
+                {% csrf_token %}
+                {{ buscarProductoForm.as_table }}
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+
+        </div>
+    </div>
+
 
     <table class="table table-blue table-striped">
 
         <th>Fecha Creacion</th>
         <th>Fecha Modificacion</th>
         <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Edad</th>
-        <th>Direccion</th>
-        <th>Cedula</th>
-        <th>Correo</th>
+        <th>Codigo</th>
+        <th>Descriocion</th>
+        <th>Categoria Producto</th>
+        <th>lista</th>
         <th>ID</th>
-        <th>Estado</th>
         <th>Modificar</th>
         <th>Eliminar</th>
 
@@ -26,16 +43,21 @@
             {% if producto.estado == 1 %}
                 <tr>
 
-                    <td>{{ producto.fecha_creacion }}</td>
-                    <td>{{ producto.fecha_modificacion }}</td>
+                    <td>{{ producto.fecha_creacion|date }}</td>
+                    <td>{{ producto.fecha_modificacion|date }}</td>
                     <td>{{ producto.nombre }}</td>
-                    <td>{{ producto.apellido }}</td>
-                    <td>{{ producto.edad }}</td>
-                    <td>{{ producto.direccion }}</td>
-                    <td>{{ producto.cedula }}</td>
-                    <td>{{ producto.correo }}</td>
+                    <td>{{ producto.codigo }}</td>
+                    <td>{{ producto.descripcion }}</td>
+                    <td>{{ producto.categoria_producto }}</td>
+                    <td>
+                        {% for categoria in producto.categoria_producto.all %}
+                            {% if categoria.estado == 1 %}
+                                {{ categoria.nombre }}{% if forloop.last %},{% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
                     <td>{{ producto.id }}</td>
-                    <td>{{ producto.estado }}</td>
+
                     <td><a href='{% url 'modificar_producto' producto.id %}'> mod </a></td>
                     <td><a href='{% url 'eliminar_producto' producto.id %}'> elim </a></td>
 

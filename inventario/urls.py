@@ -31,4 +31,22 @@ urlpatterns = [
     path('eliminar_producto/<int:id>', views.eliminar_producto, name="eliminar_producto"),
     path('modificar_producto/<int:id>', views.modificar_producto, name="modificar_producto"),
 
+    # RUTAS PARA EL CRUD DE CATEGORIA BODEGA#
+    path('consultar_categoria_bodega/', views.consultar_categoria_bodega, name="consultar_categoria_bodega"),
+    path('crear_categoria_bodega/', views.crear_categoria_bodega, name="crear_categoria_bodega"),
+    path('eliminar_categoria_bodega/<int:id>', views.eliminar_categoria_bodega, name="eliminar_categoria_bodega"),
+    path('modificar_categoria_bodega/<int:id>', views.modificar_categoria_bodega, name="modificar_categoria_bodega"),
+
+    # RUTAS PARA EL CRUD DE BODEGA#
+    path('consultar_bodega/', views.consultar_bodega, name="consultar_bodega"),
+    path('crear_bodega/', views.crear_bodega, name="crear_bodega"),
+    path('eliminar_bodega/<int:id>', views.eliminar_bodega, name="eliminar_bodega"),
+    path('modificar_bodega/<int:id>', views.modificar_bodega, name="modificar_bodega"),
+
+    # RUTAS PARA EL CRUD DE INGRESO A BODEGA#
+    path('consultar_ingreso_bodega/', views.consultar_ingreso_bodega, name="consultar_ingreso_bodega"),
+    path('crear_ingreso_bodega/', views.crear_ingreso_bodega, name="crear_ingreso_bodega"),
+    path('eliminar_ingreso_bodega/<int:id>', views.eliminar_ingreso_bodega, name="eliminar_ingreso_bodega"),
+    path('modificar_ingreso_bodega/<int:id>', views.modificar_ingreso_bodega, name="modificar_ingreso_bodega"),
+
 ]

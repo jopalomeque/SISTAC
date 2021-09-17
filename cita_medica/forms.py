@@ -13,8 +13,6 @@ class PersonaForm(forms.ModelForm):
         self.fields['apellido'].widget.attrs.update(size='80')
 
 
-
-
 class ValoresForm(forms.Form):
     valor1 = forms.IntegerField()
     valor2 = forms.IntegerField()

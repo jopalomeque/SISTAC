@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
-
 {% load static %}
 <link rel="stylesheet" href="{% static 'personalizado.css' %}">
 {% block contenido %}
@@ -9,15 +8,15 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-8">
-                <h2 class="mt-2 text-center">Crear Categoria Producto</h2>
-                {#                 <h2 class="card-title text-center"> Crear Persona </h2>#}
+                <h2 class="mt-2 text-center">Crear Bodega</h2>
+{#                 <h2 class="card-title text-center"> Crear Persona </h2>#}
                 <hr class="mt-0 mb-4">
                 <form method="post">
                     {% csrf_token %}
-                    <table>{{ categoriaProductoForm.as_table }}</table>
-                    {{ categoriaProductoForm|crispy }}
 
-                    <input type="submit" value="Guardar Datos" class="bi-alarm btn-primary"/>
+                    {{ bodegaForm|crispy }}
+
+                    <input type="submit" value="Guardar Datos" class="btn-primary"/>
                 </form>
             </div>
         </div>
