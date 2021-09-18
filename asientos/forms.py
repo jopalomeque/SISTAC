@@ -37,14 +37,14 @@ class AsientosForm(forms.Form):
 
 
 STATES = (
-    ('', 'Choose...'),
+    ('', 'Seleccione...'),
     ('MG', 'Minas Gerais'),
     ('SP', 'Sao Paulo'),
     ('RJ', 'Rio de Janeiro')
 )
 
 class AddressForm(forms.Form):
-    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Email', 'size': '20'}))
     password = forms.CharField(widget=forms.PasswordInput())
     address_1 = forms.CharField(
         label='Address',
@@ -53,10 +53,15 @@ class AddressForm(forms.Form):
     address_2 = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'Apartment, studio, or floor'})
     )
+
     city = forms.CharField()
     state = forms.ChoiceField(choices=STATES)
     zip_code = forms.CharField(label='Zip')
     check_me_out = forms.BooleanField(required=False)
+    date_creation = forms.DateTimeField(label="Fecha de Documento", widget=forms.DateInput(format=('%Y-%m-%d'),
+                                                                                     attrs={
+                                                                                         'placeholder': 'Select a date',
+                                                                                         'type': 'date', 'size': 30}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -67,14 +72,19 @@ class AddressForm(forms.Form):
                 Column('password', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
-            'address_1',
-            'address_2',
+            Row(
+                Column('address_1'),
+                Column('address_2'),
+            ),
             Row(
                 Column('city', css_class='form-group col-md-6 mb-0'),
                 Column('state', css_class='form-group col-md-4 mb-0'),
                 Column('zip_code', css_class='form-group col-md-2 mb-0'),
                 css_class='form-row'
             ),
-            'check_me_out',
-            Submit('submit', 'Sign in')
+            Row(
+                Column('check_me_out'),
+                Column('date_creation'),
+            ),
+            Submit('submit', 'Sign in'),
         )

@@ -65,11 +65,14 @@ class CategoriaProducto(models.Model):
         return '{}'.format(self.nombre)
 
 
+
 class Producto(models.Model):
     codigo = models.CharField(max_length=20)
     nombre = models.CharField(max_length=150)
     descripcion = models.CharField(max_length=250)
     categoria_producto = models.ManyToManyField(CategoriaProducto)
+
+
 
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
