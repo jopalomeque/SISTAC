@@ -14,9 +14,26 @@
 
     <h2 class="card-title text-center"> Consultar Ingreso Bodega </h2>
 
-    <a href='{% url 'crear_ingreso_bodega' %}' class="btn-primary"> Crear Ingreso Bodega </a>
 
-    <table class="table table-blue table-striped">
+    <div class="d-flex justify-content-between">
+        <div>
+            {#            left#}
+            {#                            <a href="{% url 'crear_ciudad' %}" class="btn btn-primary">Crear Ciudad</a>#}
+             <a href='{% url 'crear_ingreso_bodega' %}' class="btn-primary"> Crear Ingreso Bodega </a>
+        </div>
+        <div>
+            {#            right#}
+
+            <form action="{% url 'consultar_categoria_producto' %}" method="post">
+                {% csrf_token %}
+                {{ buscarxRangoFechaForm.as_table }}
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+
+        </div>
+    </div>
+
+    <table class="table table-dark table-striped table-bordered table-hover">
 
         <th>Fecha Creacion</th>
         <th>Fecha Modificacion</th>

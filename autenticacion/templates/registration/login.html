@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Login
+    <div class="d-flex justify-content-between">
+        <div>
+            {#            left#}
+
+        </div>
+        <div>
+            <ul class="nav">
+                <li class="nav-item"><a href="{% url 'login' %}" class="nav-link link-dark px-2">Login</a></li>
+                <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link link-dark px-2">Sign up</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Hola {{ user.username }}!</a>
+                </li>
+                <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link link-dark px-2">Salir</a></li>
+
+
+            </ul>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block login %}
+
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+                please login with an account that has access.</p>
+        {% else %}
+            <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    <div class="content container">
+        <div class="row">
+
+
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+
+                    <div>
+                        <td>{{ form.username.label_tag }}</td>
+                        <td>{{ form.username }}</td>
+                    </div>
+                    <div>
+                        <td>{{ form.password.label_tag }}</td>
+                        <td>{{ form.password }}</td>
+                    </div>
+
+                    <div>
+                        <input type="submit" value="Ingreso de Sistema"/>
+                        <input type="hidden" name="next" value="{{ next }}"/>
+                    </div>
+                </form>
+
+                {# Assumes you setup the password_reset view in your URLconf #}
+                <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
+
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -7,18 +7,18 @@
 
 
 
-      <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between">
         <div>
             {#            left#}
             {#                            <a href="{% url 'crear_ciudad' %}" class="btn btn-primary">Crear Ciudad</a>#}
-             <a href='{% url 'crear_producto' %}' class="btn-primary"> Crear Producto </a>
+            <a href='{% url 'crear_producto' %}' class="btn-primary"> Crear Producto </a>
         </div>
         <div>
             {#            right#}
 
             <form action="{% url 'consultar_producto' %}" method="post">
                 {% csrf_token %}
-                {{ buscarProductoForm.as_table }}
+                {{ buscarxRangoFechaForm.as_table }}
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
 
@@ -26,7 +26,8 @@
     </div>
 
 
-    <table class="table table-blue table-striped">
+    <table class="table table-dark table-striped table-bordered">
+
 
         <th>Fecha Creacion</th>
         <th>Fecha Modificacion</th>

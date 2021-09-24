@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load fontawesome_5 %}
 {% block contenido %}
+
+
 
 
     <div class="container">
@@ -13,9 +16,20 @@
                 <form method="POST">
                     {% csrf_token %}
                     {% crispy asientos %}
-                    <i class="bi bi-archive">
-                        <input type="submit" value="Guardar Asientos" class="btn-primary">
-                    </i>
+
+                    {% fa5_icon 'search' 'fas' %}
+
+                    {% fa5_icon 'github' 'fab' %}
+
+                    {% fa5_icon 'github-square' 'fab' %}
+
+                    {% fa5_icon 'save' 'fas' %}
+
+                    {% fa5_icon 'fa fa-search-plus' 'fas' %}
+
+
+                    <input type="submit" value="Guardar Asientos" class="btn-primary">
+                    <i class="fa fa-search-plus" aria-hidden="true"></i>
 
                     {% crispy addresForm %}
 

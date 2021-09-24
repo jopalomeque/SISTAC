@@ -5,39 +5,53 @@
 
     <h2 class="card-title text-center"> Consultar Bodega </h2>
 
-    <a href='{% url 'crear_bodega' %}' class="btn-primary"> Crear Bodega </a>
 
-    <table class="table table-blue table-striped">
+   <div class="d-flex justify-content-between">
+        <div>
+            {#            left#}
+            {#                            <a href="{% url 'crear_ciudad' %}" class="btn btn-primary">Crear Ciudad</a>#}
+               <a href='{% url 'crear_bodega' %}' class="btn-primary"> Crear Bodega </a>
+
+        </div>
+        <div>
+            {#            right#}
+
+            <form action="{% url 'consultar_bodega' %}" method="post">
+                {% csrf_token %}
+                {{ buscarxRangoFechaForm.as_table }}
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+
+        </div>
+    </div>
+
+    <table class="table table-dark table-striped table-bordered table-hover">
 
         <th>Fecha Creacion</th>
         <th>Fecha Modificacion</th>
         <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Edad</th>
-        <th>Direccion</th>
-        <th>Cedula</th>
-        <th>Correo</th>
+        <th>Descripcion</th>
+        <th>Categoria</th>
+
         <th>ID</th>
         <th>Estado</th>
         <th>Modificar</th>
         <th>Eliminar</th>
 
-        {% for producto in  bodegas_ls %}
-            {% if producto.estado == 1 %}
+        {% for bodega in  bodegas_ls %}
+            {% if bodega.estado == 1 %}
                 <tr>
 
-                    <td>{{ producto.fecha_creacion }}</td>
-                    <td>{{ producto.fecha_modificacion }}</td>
-                    <td>{{ producto.nombre }}</td>
-                    <td>{{ producto.apellido }}</td>
-                    <td>{{ producto.edad }}</td>
-                    <td>{{ producto.direccion }}</td>
-                    <td>{{ producto.cedula }}</td>
-                    <td>{{ producto.correo }}</td>
-                    <td>{{ producto.id }}</td>
-                    <td>{{ producto.estado }}</td>
-                    <td><a href='{% url 'modificar_bodega' producto.id %}'> mod </a></td>
-                    <td><a href='{% url 'eliminar_bodega' producto.id %}'> elim </a></td>
+                    <td>{{ bodega.fecha_creacion|date }}</td>
+                    <td>{{ bodega.fecha_modificacion|date }}</td>
+                    <td>{{ bodega.nombre }}</td>
+                    <td>{{ bodega.descripcion }}</td>
+                    <td>{{ bodega.categoria }}</td>
+
+                    <td>{{ bodega.id }}</td>
+                    <td>{{ bodega.estado }}</td>
+                    <td><a href='{% url 'modificar_bodega' bodega.id %}'> mod </a></td>
+                    <td><a href='{% url 'eliminar_bodega' bodega.id %}'> elim </a></td>
 
                 </tr>
             {% endif %}

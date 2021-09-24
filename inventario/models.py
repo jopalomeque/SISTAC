@@ -48,6 +48,7 @@ class Bodega(models.Model):
 class CategoriaProducto(models.Model):
     nombre = models.CharField(max_length=150)
     descripcion = models.CharField(max_length=250)
+    edad = models.IntegerField(blank=True, null=True)
 
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
@@ -71,8 +72,6 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=150)
     descripcion = models.CharField(max_length=250)
     categoria_producto = models.ManyToManyField(CategoriaProducto)
-
-
 
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)

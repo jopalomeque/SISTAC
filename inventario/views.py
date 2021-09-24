@@ -1,6 +1,8 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
-from .forms import CategoriaProductoForm, ProductoForm, CategoriaBodegaForm, BodegaForm, CabeceraIngresoBodegaForm, DetalleIngresoBodegaForm, BuscarCategoriaProductoForm, BuscarProductoForm
+from .forms import CategoriaProductoForm, ProductoForm, CategoriaBodegaForm, BodegaForm, CabeceraIngresoBodegaForm, DetalleIngresoBodegaForm, BuscarxRangoFechaForm
 from .models import CategoriaProducto, Producto, Bodega, CategoriaBodega, CabeceraIngreso, DetalleIngreso
 
 
@@ -8,22 +10,26 @@ from .models import CategoriaProducto, Producto, Bodega, CategoriaBodega, Cabece
 
 #### CRUD PARA LA ENTIDAD CATEGLORIA PRODUCTO ###
 
+
+@login_required(None, "", 'login')
 def consultar_categoria_producto(request):
-    buscarCategoriaProductoForms = BuscarCategoriaProductoForm()
+    buscarxRangoFechaForm = BuscarxRangoFechaForm()
     categorias_productos = None
     if request.method == "POST":
-        buscarCategoriaProductoForm=BuscarCategoriaProductoForm(request.POST or None)
-        if buscarCategoriaProductoForm.is_valid():
-            desde = buscarCategoriaProductoForm.cleaned_data['desde']
-            hasta = buscarCategoriaProductoForm.cleaned_data['hasta']
+        buscarxRangoFechaForm=BuscarxRangoFechaForm(request.POST or None)
+        if buscarxRangoFechaForm.is_valid():
+            edad = buscarxRangoFechaForm.cleaned_data['edad']
+            categoria = buscarxRangoFechaForm.cleaned_data['categoria_producto']
+            desde = buscarxRangoFechaForm.cleaned_data['desde']
+            hasta = buscarxRangoFechaForm.cleaned_data['hasta']
 
-            categorias_productos = CategoriaProducto.objects.filter(fecha_creacion__range=(desde, hasta))
+            categorias_productos = CategoriaProducto.objects.filter(Q(nombre__startswith=categoria) & Q(fecha_creacion__range=(desde, hasta)) & Q(edad__gt=edad))
 
     #else:
         #categorias_productos = CategoriaProducto.objects.all()
-    return render(request, "categoria_producto/consultar_categoria_producto.html", {'categorias_productos_ls': categorias_productos, 'buscarCategoriaProductoForms':buscarCategoriaProductoForms})
+    return render(request, "categoria_producto/consultar_categoria_producto.html", {'categorias_productos_ls': categorias_productos, 'buscarxRangoFechaForm':buscarxRangoFechaForm})
 
-
+@login_required(None, "", 'login')
 def crear_categoria_producto(request):
     if request.method == "POST":
         categoriaProductoForm = CategoriaProductoForm(request.POST)
@@ -39,7 +45,7 @@ def crear_categoria_producto(request):
         categoriaProductoForm = CategoriaProductoForm()
     return render(request, "categoria_producto/crear_categoria_producto.html", {'categoriaProductoForm': categoriaProductoForm})
 
-
+@login_required(None, "", 'login')
 def eliminar_categoria_producto(request, id):
     if request.method=="POST":
         categoriaProducto= get_object_or_404(CategoriaProducto, pk=id)
@@ -54,7 +60,7 @@ def eliminar_categoria_producto(request, id):
         categoriaProductoForm = CategoriaProductoForm(instance=categoriaProducto)
     return render(request, "categoria_producto/eliminar_categoria_producto.html", {'categoriaProductoForm':categoriaProductoForm})
 
-
+@login_required(None, "", 'login')
 def modificar_categoria_producto(request, id):
     if request.method == "POST":
         categoriaProducto = get_object_or_404(CategoriaProducto, pk=id)
@@ -71,23 +77,23 @@ def modificar_categoria_producto(request, id):
 
 
 #### CRUD PARA LA ENTIDAD  PRODUCTO ###
-
+@login_required(None, "", 'login')
 def consultar_producto(request):
-    buscarProductoForm = BuscarProductoForm()
+    buscarxRangoFechaForm = BuscarxRangoFechaForm()
     prodcutos = None
     if (request.method=="POST"):
-        buscarProductoForm = BuscarProductoForm(request.POST or None)
-        if buscarProductoForm.is_valid():
-            desde = buscarProductoForm.cleaned_data['desde']
-            hasta = buscarProductoForm.cleaned_data['hasta']
+        buscarxRangoFechaForm = BuscarxRangoFechaForm(request.POST or None)
+        if buscarxRangoFechaForm.is_valid():
+            desde = buscarxRangoFechaForm.cleaned_data['desde']
+            hasta = buscarxRangoFechaForm.cleaned_data['hasta']
 
             prodcutos= Producto.objects.filter(fecha_creacion__range=(desde, hasta))
 
     else:
         prodcutos = Producto.objects.all()
-    return render(request, "producto/consultar_producto.html", {'prodcutos_ls': prodcutos, 'buscarProductoForm': buscarProductoForm})
+    return render(request, "producto/consultar_producto.html", {'prodcutos_ls': prodcutos, 'buscarxRangoFechaForm': buscarxRangoFechaForm})
 
-
+@login_required(None, "", 'login')
 def crear_producto(request):
     if request.method == "POST":
         productoForm = ProductoForm(request.POST)
@@ -102,7 +108,7 @@ def crear_producto(request):
         productoForm = ProductoForm()
     return render(request, "producto/crear_producto.html", {'productoForm': productoForm})
 
-
+@login_required(None, "", 'login')
 def eliminar_producto(request, id):
     if request.method=="POST":
         producto= get_object_or_404(Producto, pk=id)
@@ -117,7 +123,7 @@ def eliminar_producto(request, id):
         productoForm = ProductoForm(instance=producto)
     return render(request, "producto/eliminar_producto.html", {'productoForm':productoForm})
 
-
+@login_required(None, "", 'login')
 def modificar_producto(request, id):
     if request.method == "POST":
         producto = get_object_or_404(Producto, pk=id)
@@ -134,12 +140,23 @@ def modificar_producto(request, id):
 
 
 #### CRUD PARA LA ENTIDAD CATEGLORIA BODEGA ###
-
+@login_required(None, "", 'login')
 def consultar_categoria_bodega(request):
-    categorias_bodegas = CategoriaBodega.objects.all()
-    return render(request, "categoria_bodega/consultar_categoria_bodega.html", {'categorias_bodegas_ls': categorias_bodegas})
+    buscarxRangoFechaForm = BuscarxRangoFechaForm()
+    categorias_bodegas = None
+    if (request.method == "POST"):
+        buscarxRangoFechaForm = BuscarxRangoFechaForm(request.POST or None)
+        if buscarxRangoFechaForm.is_valid():
+            desde = buscarxRangoFechaForm.cleaned_data['desde']
+            hasta = buscarxRangoFechaForm.cleaned_data['hasta']
 
+            categorias_bodegas = CategoriaBodega.objects.filter(fecha_creacion__range=(desde, hasta))
 
+    else:
+        categorias_bodegas = CategoriaBodega.objects.all()
+    return render(request, "categoria_bodega/consultar_categoria_bodega.html", {'categorias_bodegas_ls': categorias_bodegas, 'buscarxRangoFechaForm': buscarxRangoFechaForm})
+
+@login_required(None, "", 'login')
 def crear_categoria_bodega(request):
     if request.method == "POST":
         categoriaBodegaForm = CategoriaBodegaForm(request.POST)
@@ -153,7 +170,7 @@ def crear_categoria_bodega(request):
         categoriaBodegaForm = CategoriaBodegaForm()
     return render(request, "categoria_bodega/crear_categoria_bodega.html", {'categoriaBodegaForm': categoriaBodegaForm})
 
-
+@login_required(None, "", 'login')
 def eliminar_categoria_bodega(request, id):
     if request.method == "POST":
         categoriaBodega= get_object_or_404(CategoriaBodega, pk=id)
@@ -168,7 +185,7 @@ def eliminar_categoria_bodega(request, id):
         categoriaBodegaForm = CategoriaBodegaForm(instance=categoriaBodega)
     return render(request, "categoria_bodega/eliminar_categoria_bodega.html", {'categoriaBodegaForm':categoriaBodegaForm})
 
-
+@login_required(None, "", 'login')
 def modificar_categoria_bodega(request, id):
     if request.method == "POST":
         categoriaBodega= get_object_or_404(CategoriaBodega, pk=id)
@@ -183,12 +200,23 @@ def modificar_categoria_bodega(request, id):
     return render(request, "categoria_bodega/modificar_categoria_bodega.html", {'categoriaBodegaForm':categoriaBodegaForm})
 
 #### CRUD PARA LA ENTIDAD  BODEGA ###
-
+@login_required(None, "", 'login')
 def consultar_bodega(request):
-    bodegas = Bodega.objects.all()
-    return render(request, "bodega/consultar_bodega.html", {'bodegas_ls': bodegas})
+    buscarxRangoFechaForm = BuscarxRangoFechaForm()
+    bodegas = None
+    if (request.method == "POST"):
+        buscarxRangoFechaForm = BuscarxRangoFechaForm(request.POST or None)
+        if buscarxRangoFechaForm.is_valid():
+            desde = buscarxRangoFechaForm.cleaned_data['desde']
+            hasta = buscarxRangoFechaForm.cleaned_data['hasta']
 
+            bodegas = Bodega.objects.filter(fecha_creacion__range=(desde, hasta))
 
+    else: # GET
+        bodegas = Bodega.objects.all()
+    return render(request, "bodega/consultar_bodega.html", {'bodegas_ls': bodegas, 'buscarxRangoFechaForm':buscarxRangoFechaForm})
+
+@login_required(None, "", 'login')
 def crear_bodega(request):
     if request.method == "POST":
         bodegaForm = BodegaForm(request.POST)
@@ -203,7 +231,7 @@ def crear_bodega(request):
         bodegaForm = BodegaForm()
     return render(request, "bodega/crear_bodega.html", {'bodegaForm': bodegaForm})
 
-
+@login_required(None, "", 'login')
 def eliminar_bodega(request, id):
     if request.method=="POST":
         bodega= get_object_or_404(Bodega, pk=id)
@@ -219,7 +247,7 @@ def eliminar_bodega(request, id):
         bodegaForm = BodegaForm(instance=bodega)
     return render(request, "bodega/eliminar_bodega.html", {'bodegaForm':bodegaForm})
 
-
+@login_required(None, "", 'login')
 def modificar_bodega(request, id):
     if request.method=="POST":
         bodega= get_object_or_404(Bodega, pk=id)
@@ -235,12 +263,22 @@ def modificar_bodega(request, id):
 
 
 #### CRUD PARA LA CABECERA INGRESO A BODEGA ###
-
+@login_required(None, "", 'login')
 def consultar_ingreso_bodega(request):
-    cabeceraIngreso = CabeceraIngreso.objects.all()
-    return render(request, "ingreso_bodega/consultar_ingreso_bodega.html", {'cabeceraIngreso_ls': cabeceraIngreso})
+    buscarxRangoFechaForm = BuscarxRangoFechaForm()
+    cabeceraIngreso = None
+    if (request.method == "POST"):
+        buscarxRangoFechaForm = BuscarxRangoFechaForm(request.POST or None)
+        if buscarxRangoFechaForm.is_valid():
+            desde = buscarxRangoFechaForm.cleaned_data['desde']
+            hasta = buscarxRangoFechaForm.cleaned_data['hasta']
+
+            cabeceraIngreso = CabeceraIngreso.objects.filter(fecha_creacion__range=(desde, hasta))
 
 
+    return render(request, "ingreso_bodega/consultar_ingreso_bodega.html", {'cabeceraIngreso_ls': cabeceraIngreso, 'buscarxRangoFechaForm': buscarxRangoFechaForm})
+
+@login_required(None, "", 'login')
 def crear_ingreso_bodega(request):
     if request.method == "POST":
         cabeceraIngresoBodegaForm = CabeceraIngresoBodegaForm(request.POST)
@@ -251,9 +289,10 @@ def crear_ingreso_bodega(request):
             cabeceraIngresoBodegaForm = CabeceraIngresoBodegaForm()
     else:
         cabeceraIngresoBodegaForm = CabeceraIngresoBodegaForm()
-    return render(request, "ingreso_bodega/crear_ingreso_bodega.html", {'cabeceraIngresoBodegaForm': cabeceraIngresoBodegaForm})
+        detalleIngresoBodegaForm = DetalleIngresoBodegaForm()
+    return render(request, "ingreso_bodega/crear_ingreso_bodega.html", {'cabeceraIngresoBodegaForm': cabeceraIngresoBodegaForm, 'detalleIngresoBodegaForm': detalleIngresoBodegaForm})
 
-
+@login_required(None, "", 'login')
 def eliminar_ingreso_bodega(request, id):
     if request.method=="POST":
         cabeceraIngreso= get_object_or_404(CabeceraIngreso, pk=id)
@@ -268,7 +307,7 @@ def eliminar_ingreso_bodega(request, id):
         cabeceraIngresoBodegaForm = CabeceraIngresoBodegaForm(instance=cabeceraIngreso)
     return render(request, "ingreso_bodega/eliminar_ingreso_bodega.html", {'cabeceraIngresoBodegaForm':cabeceraIngresoBodegaForm})
 
-
+@login_required(None, "", 'login')
 def modificar_ingreso_bodega(request, id):
     if request.method=="POST":
         cabeceraIngreso= get_object_or_404(CabeceraIngreso, pk=id)

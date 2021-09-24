@@ -47,18 +47,18 @@ class AddressForm(forms.Form):
     email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Email', 'size': '20'}))
     password = forms.CharField(widget=forms.PasswordInput())
     address_1 = forms.CharField(
-        label='Address',
+        label='Direccion',
         widget=forms.TextInput(attrs={'placeholder': '1234 Main St'})
     )
     address_2 = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder': 'Apartment, studio, or floor'})
+        widget=forms.TextInput(attrs={'placeholder': 'Apartment, studio, or floor', 'class': 'form-control'})
     )
 
     city = forms.CharField()
     state = forms.ChoiceField(choices=STATES)
     zip_code = forms.CharField(label='Zip')
     check_me_out = forms.BooleanField(required=False)
-    date_creation = forms.DateTimeField(label="Fecha de Documento", widget=forms.DateInput(format=('%Y-%m-%d'),
+    date_creation = forms.DateTimeField(label="Fecha de Nacimiento", widget=forms.DateInput(format=('%Y-%m-%d'),
                                                                                      attrs={
                                                                                          'placeholder': 'Select a date',
                                                                                          'type': 'date', 'size': 30}))

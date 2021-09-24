@@ -6,36 +6,48 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>Headers · Bootstrap v5.0</title>
+
+    {% block title %}Home
+        <div class="d-flex justify-content-between">
+            <div>
+                {#            left#}
+
+            </div>
+            <div>
+                <ul class="nav">
+                    <li class="nav-item"><a href="{% url 'login' %}" class="nav-link link-dark px-2">Login</a></li>
+                    <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link link-dark px-2">Sign up</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Hola {{ user.username }}!</a>
+                    </li>
+                    <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link link-dark px-2">Salir</a></li>
+
+
+                </ul>
+
+            </div>
+        </div>
+
+    {% endblock %}
+    {#    <title>Headers · Bootstrap v5.0</title>#}
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/headers/">
 
     <!-- Bootstrap core CSS -->
     {% load static %}
-    <link href="{% static '/dist/css/bootstrap.min.css' %}" rel="stylesheet">
-
-
-    {% load static %}
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
+    <link href="{% static 'dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
 
 
     <!-- Custom styles for this template -->
     {% load static %}
     <link href="{% static 'headers.css' %}" rel="stylesheet">
+
+    {% load fontawesome_5 %}
+    {% fontawesome_5_static %}
 </head>
 <body>
 
@@ -67,86 +79,116 @@
 </svg>
 
 
-
 {% include 'messages.html' %}
 
+{% if user.is_authenticated %}
 
-<main>
 
-    <div class="b-example-divider">
-        <h1> Sistema de Gestion de Citas Medicas</h1>
+    {#        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>#}
+    {#        <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>#}
+
+    <main>
+
+        <div class="b-example-divider">
+            <h1> Sistema de Gestion de Citas Medicas</h1>
+        </div>
+
+        <nav class="py-2 bg-light border-bottom">
+            <div class="container d-flex flex-wrap">
+                <ul class="nav me-auto">
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2 active"
+                                            aria-current="page">Home</a>
+                    </li>
+                    <li class="nav-item"><a href="{% url 'consultar_cita_medica' %}"
+                                            class="nav-link link-dark px-2">Cita
+                        Medica</a></li>
+                    <li class="nav-item"><a href="{% url 'consultar_doctor' %}"
+                                            class="nav-link link-dark px-2">Doctor</a>
+                    </li>
+
+                    <li class="nav-item"><a href="{% url 'consultar_persona' %}"
+                                            class="nav-link link-dark px-2">Persona</a>
+                    </li>
+
+                    <li class="nav-item"><a href="{% url 'consultar_categoria_producto' %}"
+                                            class="nav-link link-dark px-2">Categoria
+                        Producto</a>
+                    </li>
+
+                    <li class="nav-item"><a href="{% url 'consultar_producto' %}"
+                                            class="nav-link link-dark px-2">Producto</a>
+                    </li>
+
+                    <li class="nav-item"><a href="{% url 'consultar_categoria_bodega' %}"
+                                            class="nav-link link-dark px-2">Categoria Bodega</a>
+                    </li>
+
+                    <li class="nav-item"><a href="{% url 'consultar_bodega' %}"
+                                            class="nav-link link-dark px-2">Bodega</a>
+                    </li>
+
+                    <li class="nav-item"><a href="{% url 'consultar_ingreso_bodega' %}"
+                                            class="nav-link link-dark px-2">Ingreso Bodega</a>
+                    </li>
+
+                    <li class="nav-item"><a href="{% url 'viewAsientos' %}"
+                                            class="nav-link link-dark px-2">Asientos</a>
+                    </li>
+
+
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Paciente</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Especialidad Medica</a></li>
+                    <li class="nav-item"><a href="{% url 'sumar' %}" class="nav-link link-dark px-2">Sumar</a></li>
+                    <li class="nav-item"><a href="{% url 'restar' %}" class="nav-link link-dark px-2">Restar</a>
+                    </li>
+
+                </ul>
+
+
+            </div>
+        </nav>
+        {#        <header class="py-3 mb-4 border-bottom">#}
+        {#            <div class="container d-flex flex-wrap justify-content-center">#}
+        {#                <a href="/"#}
+        {#                   class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">#}
+        {#                    <svg class="bi me-2" width="40" height="32">#}
+        {#                        <use xlink:href="#bootstrap"/>#}
+        {#                    </svg>#}
+        {#                    <span class="fs-4">Double header</span>#}
+        {#                </a>#}
+        {#                <form class="col-12 col-lg-auto mb-3 mb-lg-0">#}
+        {#                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">#}
+        {#                </form>#}
+        {#            </div>#}
+        {#        </header>#}
+    </main>
+
+    <div class="container">
+        <div class="row">
+
+            {% block contenido %}
+
+                BIENVENIDO
+
+            {% endblock %}
+
+        </div>
     </div>
 
-    <nav class="py-2 bg-light border-bottom">
-        <div class="container d-flex flex-wrap">
-            <ul class="nav me-auto">
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2 active" aria-current="page">Home</a>
-                </li>
-                <li class="nav-item"><a href="{% url 'consultar_cita_medica' %}" class="nav-link link-dark px-2">Cita
-                    Medica</a></li>
-                <li class="nav-item"><a href="{% url 'consultar_doctor' %}" class="nav-link link-dark px-2">Doctor</a>
-                </li>
-
-                <li class="nav-item"><a href="{% url 'consultar_persona' %}" class="nav-link link-dark px-2">Persona</a>
-                </li>
-
-                <li class="nav-item"><a href="{% url 'consultar_categoria_producto' %}" class="nav-link link-dark px-2">Categoria
-                    Producto</a>
-                </li>
-
-                <li class="nav-item"><a href="{% url 'consultar_producto' %}"
-                                        class="nav-link link-dark px-2">Producto</a>
-                </li>
-
-                <li class="nav-item"><a href="{% url 'consultar_categoria_bodega' %}"
-                                        class="nav-link link-dark px-2">Categoria Bodega</a>
-                </li>
-
-                <li class="nav-item"><a href="{% url 'consultar_bodega' %}"
-                                        class="nav-link link-dark px-2">Bodega</a>
-                </li>
-
-                <li class="nav-item"><a href="{% url 'consultar_ingreso_bodega' %}"
-                                        class="nav-link link-dark px-2">Ingreso Bodega</a>
-                </li>
-
-                <li class="nav-item"><a href="{% url 'viewAsientos' %}"
-                                        class="nav-link link-dark px-2">Asientos</a>
-                </li>
 
 
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Paciente</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Especialidad Medica</a></li>
-                <li class="nav-item"><a href="{% url 'sumar' %}" class="nav-link link-dark px-2">Sumar</a></li>
-                <li class="nav-item"><a href="{% url 'restar' %}" class="nav-link link-dark px-2">Restar</a></li>
-            </ul>
-            <ul class="nav">
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Login</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Sign up</a></li>
-            </ul>
-        </div>
-    </nav>
-    <header class="py-3 mb-4 border-bottom">
-        <div class="container d-flex flex-wrap justify-content-center">
-            <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-                <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap"/>
-                </svg>
-                <span class="fs-4">Double header</span>
-            </a>
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-            </form>
-        </div>
-    </header>
+{% else %}
 
+    <p>NO estas logoneado</p>
+    {#    <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock">Ingresar</span></a>#}
 
-    {% block contenido %}
-
+    {% block login %}
     {% endblock %}
 
+{% endif %}
 
-</main>
+
+
 
 {% load static %}
 <script src="{% static '/dist/js/bootstrap.bundle.min.js' %}"></script>
