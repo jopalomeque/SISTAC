@@ -2,6 +2,7 @@ from django.contrib.postgres.constraints import ExclusionConstraint
 from django.contrib.postgres.fields import RangeOperators
 from django.core.exceptions import ValidationError
 from django.db import models
+from autenticacion.models import User
 
 # Create your models here.
 class CategoriaBodega(models.Model):
@@ -138,8 +139,8 @@ class DetalleIngreso(models.Model):
 
 
 class BodegaProducto(models.Model):
-    bodega = models.ForeignKey(Bodega, on_delete=models.CASCADE)
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    bodega = models.ForeignKey(Bodega, on_delete=models.CASCADE, related_name="bodegas")
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='productos')
     cantidad_existencia = models.IntegerField()  #STOCK
     precio_compra = models.DecimalField(max_digits=16, decimal_places=4)
     precio_venta = models.DecimalField(max_digits=16, decimal_places=4)
@@ -148,8 +149,8 @@ class BodegaProducto(models.Model):
 
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
-    usuario_creacion = models.CharField(max_length=15)
-    usuario_modificacion = models.CharField(max_length=15)
+    usuario_creacion = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="usuario_creacion_bp")
+    usuario_modificacion = models.ForeignKey(User, null=True, blank=True,  on_delete=models.CASCADE,  related_name="usuario_modificacion_bp")
     estado = models.IntegerField(default=1)
 
     class Meta:

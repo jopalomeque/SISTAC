@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block contenido %}
+
+
+    <a href="{% url 'crear_productos_de_bodegas' %}">Crear Producto de Bodega </a>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ buscarBodegaProductoForm.as_p }}
+        <input type="submit" value="Buscar Productos de Bodegas">
+    </form>
+
+   <table class="table table-dark table-striped table-bordered">
+
+        <th>Fecha Creacion</th>
+        <th>Fecha Modificacion</th>
+        <th>Bodega</th>
+        <th>Producto</th>
+        <th>Existencia</th>
+        <th>ID</th>
+        <th>Modificar</th>
+        <th>Eliminar</th>
+
+        {% for producto_d_bodega in  productos_list %}
+            {% if producto_d_bodega.estado == 1 %}
+                <tr>
+
+                    <td>{{ producto_d_bodega.fecha_creacion|date }}</td>
+                    <td>{{ producto_d_bodega.fecha_modificacion|date }}</td>
+                    <td>{{ producto_d_bodega.bodega.nombre }}</td>
+                    <td>{{ producto_d_bodega.producto }}</td>
+                    <td>{{ producto_d_bodega.cantidad_existencia }}</td>
+                    <td>{{ producto_d_bodega.id }}</td>
+                    <td>
+                        {% for producto in producto.producto.all %}
+                            {% if producto.estado == 1 %}
+                                {{ producto.nombre }}{% if forloop.last %},{% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+
+
+                    <td><a href='{% url 'modificar_producto' producto_d_bodega.id %}'> mod </a></td>
+                    <td><a href='{% url 'eliminar_producto' producto_d_bodega.id %}'> elim </a></td>
+
+                </tr>
+            {% endif %}
+        {% endfor %}
+
+    </table>
+
+
+{% endblock %}

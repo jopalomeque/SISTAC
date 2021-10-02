@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     #'django_bootstrap_icons'
     #'widget_tweaks',
     'autenticacion',
+    'appImage',
     'bootstrap_modal_forms',
     'widget_tweaks',
     'fontawesome_5',
@@ -158,12 +159,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-
 STATIC_URL = '/static/'
 
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'img')
+MEDIA_URL = '/img/'
 
 # List of finder classes that know how to find static files in
 # various locations.

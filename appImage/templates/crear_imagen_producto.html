@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block contenido %}
+
+    <h1> Ingreso de Imagen </h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{  productoImagenForm.as_p }}
+        <input type="submit" value="Guardar Imagen de Producto">
+    </form>
+{% endblock %}

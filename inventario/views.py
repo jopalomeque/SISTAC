@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
-from .forms import CategoriaProductoForm, ProductoForm, CategoriaBodegaForm, BodegaForm, CabeceraIngresoBodegaForm, DetalleIngresoBodegaForm, BuscarxRangoFechaForm
-from .models import CategoriaProducto, Producto, Bodega, CategoriaBodega, CabeceraIngreso, DetalleIngreso
+from .forms import CategoriaProductoForm, ProductoForm, CategoriaBodegaForm, BodegaForm, CabeceraIngresoBodegaForm, DetalleIngresoBodegaForm, BuscarxRangoFechaForm, BuscarBodegaProductoForm, BodegaProductoForm
+from .models import CategoriaProducto, Producto, Bodega, CategoriaBodega, CabeceraIngreso, DetalleIngreso, BodegaProducto
 
 
 # Create your views here.
@@ -322,4 +322,34 @@ def modificar_ingreso_bodega(request, id):
     return render(request, "ingreso_bodega/modificar_ingreso_bodega.html", {'cabeceraIngresoBodegaForm':cabeceraIngresoBodegaForm})
 
 
+def consultar_productos_de_bodegas(request):
+    global productos_list
+    if request.method == "POST":
+        buscarBodegaProductoForm = BuscarBodegaProductoForm(request.POST or None)
+        if buscarBodegaProductoForm.is_valid():
+            producto_nombre = buscarBodegaProductoForm.cleaned_data['producto']
+            productos_list = BodegaProducto.objects.filter(producto__nombre__icontains=producto_nombre)
+            #return redirect('consultar_productos_de_bodega')
+            return render(request, "bodegaproducto/consultar_productos_de_bodega.html", {'productos_list': productos_list,'buscarBodegaProductoForm':buscarBodegaProductoForm})
+    else:
+        buscarBodegaProductoForm = BuscarBodegaProductoForm()
+        productos_list = None
+    return render(request, "bodegaproducto/consultar_productos_de_bodega.html", {'productos_list': productos_list, 'buscarBodegaProductoForm':buscarBodegaProductoForm})
 
+
+
+def crear_productos_de_bodegas(request):
+    if request.method == "POST":
+        bodegaProductoForm = BodegaProductoForm(request.POST or None)
+        if bodegaProductoForm.is_valid():
+            bodegaProducto = bodegaProductoForm.save(commit=False)
+            bodegaProducto.usuario_creacion = request.user
+            bodegaProducto.usuario_modificacion = request.user
+            bodegaProductoForm.save(commit=True)
+            #producto_nombre = bodegaProductoForm.cleaned_data['producto']
+            #productos_list = BodegaProducto.objects.filter(producto__nombre__icontains=producto_nombre)
+            #return redirect('consultar_productos_de_bodega')
+            return redirect('consultar_productos_de_bodegas')
+    else:
+        bodegaProductoForm = BodegaProductoForm()
+    return render(request, "bodegaproducto/crear_productos_de_bodega.html", {'bodegaProductoForm':bodegaProductoForm})

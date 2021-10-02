@@ -1,7 +1,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit
 from django import forms
-from .models import CategoriaProducto, Producto, CategoriaBodega, Bodega, CabeceraIngreso, DetalleIngreso
+from .models import CategoriaProducto, Producto, CategoriaBodega, Bodega, CabeceraIngreso, DetalleIngreso, BodegaProducto
 
 
 class BuscarxRangoFechaForm(forms.Form):
@@ -111,3 +111,13 @@ class DetalleIngresoBodegaForm(forms.ModelForm):
         # self.fields['nombre'].widget.attrs.update({'class': 'form-control'})
         # self.fields['apellido'].widget.attrs.update({'class': 'form-control'})
         self.fields['producto'].widget.attrs.update(size='80')
+
+
+class BuscarBodegaProductoForm(forms.Form):
+    bodega = forms.CharField(max_length=120)
+    producto = forms.CharField(max_length=120)
+
+class BodegaProductoForm(forms.ModelForm):
+    class Meta:
+        model = BodegaProducto
+        fields = ['bodega', 'producto', 'cantidad_existencia', 'precio_compra', 'precio_venta', 'stock_maximo', 'stock_minimo']

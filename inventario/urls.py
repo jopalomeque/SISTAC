@@ -49,4 +49,10 @@ urlpatterns = [
     path('eliminar_ingreso_bodega/<int:id>', views.eliminar_ingreso_bodega, name="eliminar_ingreso_bodega"),
     path('modificar_ingreso_bodega/<int:id>', views.modificar_ingreso_bodega, name="modificar_ingreso_bodega"),
 
+    # RUTAS PARA EL CRUD DE BODEGA PRODUCTO
+    path('consultar_productos_de_bodegas/', views.consultar_productos_de_bodegas, name="consultar_productos_de_bodegas"),
+    path('crear_productos_de_bodegas/', views.crear_productos_de_bodegas, name="crear_productos_de_bodegas"),
+    #path('eliminar_productos_de_bodegas/<int:id>', views.eliminar_productos_de_bodegas, name="eliminar_productos_de_bodegas"),
+    #path('modificar_productos_de_bodega/<int:id>', views.modificar_productos_de_bodega, name="modificar_productos_de_bodega"),
+
 ]

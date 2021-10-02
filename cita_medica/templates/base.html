@@ -83,7 +83,6 @@
 
 {% if user.is_authenticated %}
 
-
     {#        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>#}
     {#        <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>#}
 
@@ -135,6 +134,14 @@
                                             class="nav-link link-dark px-2">Asientos</a>
                     </li>
 
+                    <li class="nav-item"><a href="{% url 'consulta_producto_imagenes' %}"
+                                            class="nav-link link-dark px-2">Imagenes Producto</a>
+                    </li>
+
+                    <li class="nav-item"><a href="{% url 'consultar_productos_de_bodegas' %}"
+                                            class="nav-link link-dark px-2">Producto de Bddegas</a>
+                    </li>
+
 
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Paciente</a></li>
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Especialidad Medica</a></li>
@@ -174,8 +181,6 @@
 
         </div>
     </div>
-
-
 
 {% else %}
 
