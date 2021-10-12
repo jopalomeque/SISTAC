@@ -183,6 +183,7 @@ def exportarListaPersonaPdf(request):
     header = Paragraph("     Reporte de Personas", styles['Heading1'])
     personas.append(header)
 
+
     headings = ('Id', 'Nombre', 'Apellido', 'Edad', 'Direccion', 'Cedula', 'Correo')
     allpersonas = [(c.id, c.nombre, c.apellido, c.edad, c.direccion, c.cedula, c.correo) for c in Persona.objects.all()
 ]
