@@ -1,6 +1,21 @@
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
-from .forms import PersonaForm, ValoresForm
+from .forms import PersonaForm, ValoresForm, SearchPersonaForm
 from .models import Persona
+
+import io
+from django.http import FileResponse
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import cm, inch
+from reportlab.pdfgen import canvas
+
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login
+from reportlab.platypus import TableStyle, Table, SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.enums import TA_JUSTIFY, TA_RIGHT, TA_CENTER, TA_LEFT
 
 
 # Create your views here.
@@ -89,8 +104,16 @@ def modificar_doctor(request):
 #### CRUD PARA LA ENTIDAD PERSONA ###
 
 def consultar_persona(request):
-    personas = Persona.objects.all()
-    return render(request, "persona/consultar_persona.html", {'personas_ls': personas})
+    if request.method == "POST":
+        searchPersonaForm = SearchPersonaForm(request.POST or None)
+        if searchPersonaForm.is_valid():
+            cedula = searchPersonaForm.cleaned_data['cedula']
+            apellido = searchPersonaForm.cleaned_data['apellido']
+            personas = Persona.objects.filter(Q(cedula__icontains=cedula) | Q(apellido__icontains=apellido))
+    else :
+        personas = Persona.objects.all()
+        searchPersonaForm = SearchPersonaForm(request.POST or None)
+    return render(request, "persona/consultar_persona.html", {'personas_ls':personas, 'searchPersonaForm':searchPersonaForm})
 
 
 def crear_persona(request):
@@ -134,3 +157,49 @@ def modificar_persona(request, id):
         persona = get_object_or_404(Persona, pk=id)
         personaForm = PersonaForm(instance=persona)
     return render(request, "persona/modificar_persona.html", {'personaForm': personaForm})
+
+
+
+@login_required(None, "", 'login')
+def exportarListaPersonaPdf(request):
+    # Create a file-like buffer to receive PDF data.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="lista_personas.pdf"'
+
+    buffer = io.BytesIO()
+
+    doc = SimpleDocTemplate(buffer,
+                            rightMargin=inch / 4,
+                            leftMargin=inch / 4,
+                            topMargin=inch / 2,
+                            bottomMargin=inch / 4,
+                            pagesize=A4)
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='centered', alignment=TA_CENTER))
+    styles.add(ParagraphStyle(name='RightAlign', fontName='Arial', align=TA_RIGHT))
+
+    personas = []
+    styles = getSampleStyleSheet()
+    header = Paragraph("     Reporte de Personas", styles['Heading1'])
+    personas.append(header)
+
+    headings = ('Id', 'Nombre', 'Apellido', 'Edad', 'Direccion', 'Cedula', 'Correo')
+    allpersonas = [(c.id, c.nombre, c.apellido, c.edad, c.direccion, c.cedula, c.correo) for c in Persona.objects.all()
+]
+    print
+    allpersonas
+
+    t = Table([headings] + allpersonas)
+    t.setStyle(TableStyle(
+        [
+            ('GRID', (0, 0), (9, -1), 1, colors.springgreen),
+            ('LINEBELOW', (0, 0), (-1, 0), 2, colors.springgreen),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.springgreen)
+        ]
+    ))
+    personas.append(t)
+    doc.build(personas)
+    response.write(buffer.getvalue())
+    buffer.close()
+    return response
+

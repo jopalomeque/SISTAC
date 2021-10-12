@@ -7,7 +7,12 @@
     <form method="post">
         {% csrf_token %}
         {{ bodegaProductoForm.as_p }}
+
+        {{ formularioEjemplo.as_p }}
+
         <input type="submit" value="Crear Producto de Bodegas">
     </form>
+
+
 
 {% endblock %}

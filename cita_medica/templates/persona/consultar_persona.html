@@ -5,9 +5,65 @@
 
     <h2 class="card-title text-center"> Consultar Persona </h2>
 
-    <a href='{% url 'crear_persona' %}' class="btn-primary"> Crear Persona </a>
 
-    <table class="table table-blue table-striped">
+    <div class="d-flex justify-content-between">
+        <div>
+            {#            left#}
+
+        </div>
+        <div>
+            {#            right#}
+            <table class="table table-dark table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        {#                        <a class="nav-link" href="{% url 'exportarListCiudadPdf' %}">#}
+                        {#                            <i class="fa fa-file-excel-o" style="font-size:24px;color:green"></i>#}
+                        {#                        </a>#}
+                    </th>
+                    <th>
+
+                        <form action="{% url 'exportarListaPersonaPdf' %}" method="post">
+                            {% csrf_token %}
+                            {{ searchPersonaForm.as_table }}
+                            <button type="submit"><i class="fa fa-file-pdf-o" style="font-size:24px;color:red"></i>
+                            </button>
+                        </form>
+
+
+                        {#                        <a class="nav-link" href="{% url 'exportarListCiudadPdf' %}">#}
+                        {#                            <i class="fa fa-file-pdf-o" style="font-size:24px;color:red"></i>#}
+                        {#                        </a>#}
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="d-flex justify-content-between">
+        <div>
+            {#            left#}
+            <a href='{% url 'crear_persona' %}' class="btn-primary"> Crear Persona </a>
+
+        </div>
+        <div>
+            {#            right#}
+            <form action="{% url 'consultar_persona' %}" method="post">
+                {% csrf_token %}
+                {{ searchPersonaForm.as_table }}
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
+
+
+    <table class="table table-dark table-striped">
 
         <th>Fecha Creacion</th>
         <th>Fecha Modificacion</th>

@@ -117,6 +117,7 @@ class CabeceraIngreso(models.Model):
 
 class DetalleIngreso(models.Model):
     cabecera_ingreso = models.OneToOneField(CabeceraIngreso, on_delete=models.CASCADE)
+    secuencia = models.IntegerField(default=None)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad_ingreso = models.IntegerField()
     precio_ingreso = models.DecimalField(max_digits=16, decimal_places=4)
@@ -161,6 +162,60 @@ class BodegaProducto(models.Model):
 
     def __str__(self):
         return '{}'.format(self.bodega)
+
+
+class CabeceraEgreso(models.Model):
+    codigo = models.CharField(max_length=15)
+    fecha_entrega = models.DateTimeField(auto_now_add=True)
+    bodeguero = models.ForeignKey(User, on_delete=models.CASCADE)
+    recibe = models.CharField(max_length=255)
+    total_egreso = models.DecimalField(max_digits=16, decimal_places=4)
+
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_modificacion = models.DateTimeField(auto_now=True)
+    usuario_creacion = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE,
+                                         related_name="usuario_creacion_cbe")
+    usuario_modificacion = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE,
+                                             related_name="usuario_modificacion_cbe")
+    estado = models.IntegerField(default=1)
+
+    class Meta:
+        db_table = "cabecera_egreso"
+        verbose_name = "cabecera_egreso"
+        verbose_name_plural = "cabeceras_egreso"
+        ordering = ['fecha_entrega']
+
+    def __str__(self):
+        return '{}'.format(self.codigo)
+
+class DetalleEgreso(models.Model):
+    cabecera_egreso = models.OneToOneField(CabeceraEgreso, on_delete=models.CASCADE, related_name="cabecera_egreso")
+    secuencia = models.IntegerField(default=None)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad_egreso = models.IntegerField()
+    precio_egreso = models.DecimalField(max_digits=16, decimal_places=4)
+    total_egreso = models.DecimalField(max_digits=16, decimal_places=4)
+
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_modificacion = models.DateTimeField(auto_now=True)
+    usuario_creacion = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE,
+                                         related_name="usuario_creacion_dbe")
+    usuario_modificacion = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE,
+                                             related_name="usuario_modificacion_dbe")
+    estado = models.IntegerField(default=1)
+
+    class Meta:
+        db_table = "detalle_egreso"
+        verbose_name = "detalle_egresos"
+        verbose_name_plural = "detalles_egreso"
+        ordering = ['producto']
+
+    def __str__(self):
+        return '{}{}{}()()'.format(self.cabecera_egreso.codigo, " ", self.secuencia, " ", self.producto.nombre)
+
+
+
+
 
 
 

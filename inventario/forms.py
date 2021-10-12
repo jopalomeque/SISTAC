@@ -4,6 +4,14 @@ from django import forms
 from .models import CategoriaProducto, Producto, CategoriaBodega, Bodega, CabeceraIngreso, DetalleIngreso, BodegaProducto
 
 
+class ejemploDatePicker(forms.Form):
+    fecha_ingreso_boleto = forms.DateTimeField(label="Fecha de Boleto", required=True, widget=forms.DateInput(format=("%Y-%m-%d"),
+                                                                                       attrs={
+                                                                                           'placeholder':"Seleccione una Fecha",
+                                                                                           'type':"date", 'size':30
+                                                                                       }))
+
+
 class BuscarxRangoFechaForm(forms.Form):
     edad = forms.CharField(label="Edad")
     categoria_producto = forms.CharField(label="Categoria", required=True)
@@ -97,7 +105,7 @@ class CabeceraIngresoBodegaForm(forms.ModelForm):
                 css_class='form-row'
             ),
 
-            Submit('submit', 'Guardar Datos'),
+            #Submit('submit', 'Guardar Datos'),
         )
 
 
@@ -110,7 +118,19 @@ class DetalleIngresoBodegaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # self.fields['nombre'].widget.attrs.update({'class': 'form-control'})
         # self.fields['apellido'].widget.attrs.update({'class': 'form-control'})
-        self.fields['producto'].widget.attrs.update(size='80')
+        #self.fields['producto'].widget.attrs.update(size='80')
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('producto', css_class='form-group col-md-4 mb-8'),
+                Column('cantidad_ingreso', css_class='form-group col-md-4 mb-8'),
+                Column('precio_ingreso', css_class='form-group col-md-4 mb-8'),
+                Column('sub_total', css_class='form-group col-md-4 mb-8'),
+                css_class='form-row'
+            ),
+
+            Submit('submit', '..'),
+        )
 
 
 class BuscarBodegaProductoForm(forms.Form):

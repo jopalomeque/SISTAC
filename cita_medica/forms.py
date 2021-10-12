@@ -13,6 +13,17 @@ class PersonaForm(forms.ModelForm):
         self.fields['apellido'].widget.attrs.update(size='80')
 
 
+class SearchPersonaForm(forms.Form):
+    cedula = forms.CharField(max_length=100)
+    apellido = forms.CharField(max_length=100)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #self.fields['nombre'].widget.attrs.update({'class': 'form-control'})
+        #self.fields['apellido'].widget.attrs.update({'class': 'form-control'})
+        self.fields['apellido'].widget.attrs.update(size='80')
+
+
 class ValoresForm(forms.Form):
     valor1 = forms.IntegerField()
     valor2 = forms.IntegerField()

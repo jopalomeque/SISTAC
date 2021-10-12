@@ -2,8 +2,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from .forms import ejemploDatePicker
 from .forms import CategoriaProductoForm, ProductoForm, CategoriaBodegaForm, BodegaForm, CabeceraIngresoBodegaForm, DetalleIngresoBodegaForm, BuscarxRangoFechaForm, BuscarBodegaProductoForm, BodegaProductoForm
-from .models import CategoriaProducto, Producto, Bodega, CategoriaBodega, CabeceraIngreso, DetalleIngreso, BodegaProducto
+from .models import CategoriaProducto, Producto, Bodega, CategoriaBodega, CabeceraIngreso, DetalleIngreso, BodegaProducto, CabeceraEgreso, DetalleEgreso
 
 
 # Create your views here.
@@ -350,6 +351,26 @@ def crear_productos_de_bodegas(request):
             #productos_list = BodegaProducto.objects.filter(producto__nombre__icontains=producto_nombre)
             #return redirect('consultar_productos_de_bodega')
             return redirect('consultar_productos_de_bodegas')
-    else:
+    else: #GET
         bodegaProductoForm = BodegaProductoForm()
-    return render(request, "bodegaproducto/crear_productos_de_bodega.html", {'bodegaProductoForm':bodegaProductoForm})
+        formularioEjemplo = ejemploDatePicker()
+    return render(request, "bodegaproducto/crear_productos_de_bodega.html", {'bodegaProductoForm':bodegaProductoForm, 'formularioEjemplo':formularioEjemplo})
+
+
+def consultar_detalle_productos_egreso(request, id_cabecera_egreso):
+    total_egreso = 0
+    if request.method == "POST":
+        #detalle_egreso = get_object_or_404(DetalleEgreso, id=id_cabecera_egreso)
+        detalle_productos = DetalleEgreso.objects.filter(cabecera_egreso__contains=id_cabecera_egreso)
+
+        for producto in detalle_productos:
+            tmp = producto.cantidad_egreso * producto.precio_egreso
+            total_egreso = total_egreso + tmp
+
+        cabecera_egreso =  get_object_or_404(CabeceraEgreso, id=id_cabecera_egreso)
+        cabecera_egreso.total_egreso = total_egreso
+        cabecera_egreso.save()
+
+    #else: # "GET
+
+    return render(request, "egreso_bodega/consultar_detalle_productos_egreso.html", {'total_egreso': total_egreso})

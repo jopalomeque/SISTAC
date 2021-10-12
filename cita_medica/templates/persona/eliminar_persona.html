@@ -12,7 +12,7 @@
                 {#                 <h2 class="card-title text-center"> Crear Persona </h2>#}
                 <hr class="mt-0 mb-4">
 
-                <form method="POST" class="form-control form-control-sm">
+                <form method="post" class="form-control form-control-sm">
                     {% csrf_token %}
                     {{ personaForm|crispy }}
 

@@ -45,5 +45,7 @@ urlpatterns = [
     path('crear_persona/', views.crear_persona, name="crear_persona"),
     path('eliminar_persona/<int:id>', views.eliminar_persona, name="eliminar_persona"),
     path('modificar_persona/<int:id>', views.modificar_persona, name="modificar_persona"),
+    path('exportarListaPersonaPdf/', views.exportarListaPersonaPdf, name="exportarListaPersonaPdf"),
+    #path('exportarListCiudadPdfPorFecha/', views.exportarListCiudadPdfPorFecha, name="exportarListCiudadPdfPorFecha"),
 
 ]

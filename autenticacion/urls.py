@@ -22,8 +22,8 @@ from autenticacion import views
 urlpatterns = [
     path('', auth_views.LoginView.as_view(template_name='registration/login.html')),
     path('crear_usuario/', views.crear_usuario, name="signup"),
-    #path('profile/', auth_views.LoginView.as_view(template_name='registration/login.html')),
-    #path('change-password/', auth_views.PasswordChangeView.as_view(template_name='registration/login.html')),
+    #path('profile/', auth_views.LoginView.as_view(template_name='templates/login.html')),
+    #path('change-password/', auth_views.PasswordChangeView.as_view(template_name='templates/login.html')),
 ]
 
 #urlpatterns = [
